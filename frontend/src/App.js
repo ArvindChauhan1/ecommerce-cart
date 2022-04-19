@@ -7,7 +7,7 @@ import {
 import Header from "./Component/Header";
 import CartPage from "./Pages/CartPage";
 import ProductPage from "./Pages/ProductPage";
-import UpdateProduct from "./Pages/UpdateProduct";
+import UpdateProduct from "./Pages/CreateUpdateProduct";
 
 function App() {
   return (
@@ -18,6 +18,7 @@ function App() {
           <Route path="/" element={<ProductPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/update-product&:id" element={<UpdateProduct />} />
+          <Route path="/create-product" element={<UpdateProduct />} />
         </Routes>
       </BrowserRouter>
     </>

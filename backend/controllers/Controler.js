@@ -10,6 +10,7 @@ exports.createProduct = async (req, res) => {
         // Validate user input
         if (!(price && name && image)) {
             res.status(400).send("All input is required");
+            return
         }
 
 
@@ -18,8 +19,10 @@ exports.createProduct = async (req, res) => {
             name,
             description,
             image,
-            price,
+            price: parseInt(price),
         });
+
+        console.log('cc')
 
         res.status(201).json({
             success: true,

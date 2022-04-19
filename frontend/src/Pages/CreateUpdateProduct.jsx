@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router'
 const UpdateProduct = () => {
     const { id } = useParams()
     const navigate = useNavigate()
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(id === undefined ? false : true)
     const [name, setName] = useState('')
     const [price, setPrice] = useState(0)
     const [description, setDescription] = useState('')
@@ -14,27 +14,47 @@ const UpdateProduct = () => {
     const fetchProduct = useCallback(async () => {
         const resp = await http.get(`/product/${id}`)
         setName(resp.data !== undefined ? resp.data.product.name : [])
-        setPrice(resp.data !== undefined ? resp.data.product.price : [])
+        setPrice(resp.data !== undefined ? resp.data.product.price : 0)
         setDescription(resp.data !== undefined ? resp.data.product.description : [])
         setImage(resp.data !== undefined ? resp.data.product.image : { url: '', id: 0 })
         setLoading(false)
     }, [setName, setPrice, setDescription, setImage])
 
     useEffect(() => {
-        fetchProduct()
+        if (id !== undefined) fetchProduct()
     }, [fetchProduct])
 
 
     const handleSubmit = async () => {
-        http.put(`/product/${id}`, {
+
+
+        if (price === 0) {
+            alert('Price cannot be zero')
+            return
+        }
+
+        const data = {
             name,
             description,
-            price,
-            image
-        }).then(() => {
-            alert("Product Updated")
-            navigate('../')
-        }).catch((e) => console.log(e))
+            price: parseInt(price),
+            image: {
+                id: 1,
+                url: "https://picsum.photos/400"
+            }
+        }
+
+
+        if (id !== undefined) {
+            http.put(`/product/${id}`, data).then(() => {
+                alert("Product Updated")
+                navigate('../')
+            }).catch((e) => console.log(e))
+        } else {
+            http.post(`/product/create`, data).then(() => {
+                alert("Product Created")
+                navigate('../')
+            }).catch((e) => console.log(e))
+        }
     }
 
     return (

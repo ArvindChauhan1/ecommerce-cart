@@ -16,6 +16,11 @@ const Header = () => {
                             Cart
                         </span>
                     </Link>
+                    <Link to='/create-product'>
+                        <span className="inline-block p-4 hover:bg-indigo-700 cursor-pointer">
+                            Create Product
+                        </span>
+                    </Link>
                 </span>
             </div>
         </>
