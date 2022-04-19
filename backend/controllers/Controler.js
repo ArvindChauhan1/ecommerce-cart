@@ -22,8 +22,6 @@ exports.createProduct = async (req, res) => {
             price: parseInt(price),
         });
 
-        console.log('cc')
-
         res.status(201).json({
             success: true,
             message: "product created successfully",
